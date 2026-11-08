@@ -1,6 +1,5 @@
 // The shopping agent. Gemini decides which tool to call; this module executes the tool
 // (see tools.js) and feeds the result back. Gemini is never given a payment tool.
-
 import { TOOL_DECLARATIONS, TOOL_IMPLEMENTATIONS, searchProducts, compareOptions, proposeCart } from './tools.js';
 import { formatCents, shippingFor } from './catalog.js';
 
