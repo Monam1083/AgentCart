@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +29,8 @@ String _randomSessionId() {
 }
 
 class ApiClient {
-  ApiClient({required this.baseUrl, required this.sessionId, http.Client? client})
+  ApiClient(
+      {required this.baseUrl, required this.sessionId, http.Client? client})
       : _http = client ?? http.Client();
 
   String baseUrl;
@@ -44,7 +44,9 @@ class ApiClient {
       session = _randomSessionId();
       await prefs.setString('sessionId', session);
     }
-    return ApiClient(baseUrl: prefs.getString('backendUrl') ?? defaultBackendUrl(), sessionId: session);
+    return ApiClient(
+        baseUrl: prefs.getString('backendUrl') ?? defaultBackendUrl(),
+        sessionId: session);
   }
 
   Future<void> saveBaseUrl(String url) async {
@@ -56,30 +58,39 @@ class ApiClient {
   Uri _uri(String path, [Map<String, String>? query]) =>
       Uri.parse('$baseUrl$path').replace(queryParameters: query);
 
-  Future<Map<String, dynamic>> _send(Future<http.Response> Function() request) async {
+  Future<Map<String, dynamic>> _send(
+      Future<http.Response> Function() request) async {
     final http.Response res;
     try {
       res = await request().timeout(const Duration(seconds: 60));
     } catch (e) {
-      throw ApiException('Could not reach the backend at $baseUrl. Is it running? ($e)');
+      throw ApiException(
+          'Could not reach the backend at $baseUrl. Is it running? ($e)');
     }
     Map<String, dynamic> body;
     try {
       body = jsonDecode(res.body) as Map<String, dynamic>;
     } catch (_) {
-      throw ApiException('Unexpected response from the backend (HTTP ${res.statusCode}).');
+      throw ApiException(
+          'Unexpected response from the backend (HTTP ${res.statusCode}).');
     }
     if (res.statusCode >= 400) {
-      throw ApiException(body['error'] as String? ?? 'Request failed (HTTP ${res.statusCode}).');
+      throw ApiException(body['error'] as String? ??
+          'Request failed (HTTP ${res.statusCode}).');
     }
     return body;
   }
 
-  Future<ChatResult> chat(String message, {required double spendingLimit}) async {
+  Future<ChatResult> chat(String message,
+      {required double spendingLimit}) async {
     final body = await _send(() => _http.post(
           _uri('/api/chat'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'sessionId': sessionId, 'message': message, 'spendingLimit': spendingLimit}),
+          body: jsonEncode({
+            'sessionId': sessionId,
+            'message': message,
+            'spendingLimit': spendingLimit
+          }),
         ));
     return ChatResult.fromJson(body);
   }
@@ -98,7 +109,8 @@ class ApiClient {
   }
 
   Future<Cart> getCart(String cartId) async {
-    final body = await _send(() => _http.get(_uri('/api/carts/$cartId', {'sessionId': sessionId})));
+    final body = await _send(
+        () => _http.get(_uri('/api/carts/$cartId', {'sessionId': sessionId})));
     return Cart.fromJson(body['cart'] as Map<String, dynamic>);
   }
 }
