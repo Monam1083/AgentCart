@@ -7,7 +7,6 @@ import 'cart_card.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.api});
-
   final ApiClient api;
 
   @override
