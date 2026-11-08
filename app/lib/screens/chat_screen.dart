@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +27,8 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [
     ChatMessage(
       sender: Sender.agent,
-      text: 'Hi! Tell me what you want and your budget. I will build a cart, and you decide whether to pay.',
+      text:
+          'Hi! Tell me what you want and your budget. I will build a cart, and you decide whether to pay.',
     ),
   ];
   final Map<String, Cart> _carts = {};
@@ -50,14 +50,16 @@ class _ChatScreenState extends State<ChatScreen> {
   void _scrollToEnd() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
-        _scroll.animateTo(_scroll.position.maxScrollExtent, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+        _scroll.animateTo(_scroll.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
       }
     });
   }
 
   void _showError(Object error) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(error.toString())));
   }
 
   Future<void> _send([String? preset]) async {
@@ -75,7 +77,11 @@ class _ChatScreenState extends State<ChatScreen> {
       if (!mounted) return;
       setState(() {
         if (result.cart != null) _carts[result.cart!.id] = result.cart!;
-        _messages.add(ChatMessage(sender: Sender.agent, text: result.reply, cartId: result.cart?.id, tools: result.tools));
+        _messages.add(ChatMessage(
+            sender: Sender.agent,
+            text: result.reply,
+            cartId: result.cart?.id,
+            tools: result.tools));
       });
     } catch (e) {
       _showError(e);
@@ -104,8 +110,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _openPayPal(String cartId) async {
     final url = _approvalUrls[cartId];
     if (url == null) return;
-    final ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    if (!ok) _showError('Could not open PayPal. Copy this link into a browser: $url');
+    final ok =
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    if (!ok)
+      _showError('Could not open PayPal. Copy this link into a browser: $url');
   }
 
   /// Human check #2 happens inside PayPal. We just watch for the backend to record the result.
@@ -136,7 +144,8 @@ class _ChatScreenState extends State<ChatScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) => Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.fromLTRB(
+            20, 20, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
         child: StatefulBuilder(
           builder: (context, setSheetState) => Column(
             mainAxisSize: MainAxisSize.min,
@@ -145,7 +154,9 @@ class _ChatScreenState extends State<ChatScreen> {
               Text('Settings', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 16),
               Text('Spending limit: \$${limit.toStringAsFixed(0)}'),
-              const Text('The server will not let the agent propose a cart above this.', style: TextStyle(fontSize: 12)),
+              const Text(
+                  'The server will not let the agent propose a cart above this.',
+                  style: TextStyle(fontSize: 12)),
               Slider(
                 value: limit,
                 min: 5,
@@ -157,13 +168,16 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 8),
               TextField(
                 controller: urlController,
-                decoration: const InputDecoration(labelText: 'Backend URL', border: OutlineInputBorder()),
+                decoration: const InputDecoration(
+                    labelText: 'Backend URL', border: OutlineInputBorder()),
                 keyboardType: TextInputType.url,
               ),
               const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerRight,
-                child: FilledButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Done')),
+                child: FilledButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Done')),
               ),
             ],
           ),
@@ -185,7 +199,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('AgentCart'),
-        actions: [IconButton(icon: const Icon(Icons.tune), tooltip: 'Settings', onPressed: _openSettings)],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.tune),
+              tooltip: 'Settings',
+              onPressed: _openSettings)
+        ],
       ),
       body: Column(
         children: [
@@ -198,7 +217,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 if (i == _messages.length) return const _ThinkingBubble();
                 return _MessageBubble(
                   message: _messages[i],
-                  cart: _messages[i].cartId == null ? null : _carts[_messages[i].cartId!],
+                  cart: _messages[i].cartId == null
+                      ? null
+                      : _carts[_messages[i].cartId!],
                   confirming: _confirmingCartId == _messages[i].cartId,
                   onConfirm: _confirm,
                   onReopenPayPal: _openPayPal,
@@ -216,7 +237,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   for (final s in _suggestions)
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
-                      child: ActionChip(label: Text(s), onPressed: () => _send(s)),
+                      child:
+                          ActionChip(label: Text(s), onPressed: () => _send(s)),
                     ),
                 ],
               ),
@@ -238,13 +260,18 @@ class _ChatScreenState extends State<ChatScreen> {
                         counterText: '',
                         filled: true,
                         fillColor: scheme.surfaceContainerHighest,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(24),
+                            borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  IconButton.filled(onPressed: _thinking ? null : () => _send(), icon: const Icon(Icons.send)),
+                  IconButton.filled(
+                      onPressed: _thinking ? null : () => _send(),
+                      icon: const Icon(Icons.send)),
                 ],
               ),
             ),
@@ -278,19 +305,25 @@ class _MessageBubble extends StatelessWidget {
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.86),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.86),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Column(
-            crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment:
+                isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
-                  color: isUser ? scheme.primary : scheme.surfaceContainerHighest,
+                  color:
+                      isUser ? scheme.primary : scheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: Text(message.text, style: TextStyle(color: isUser ? scheme.onPrimary : scheme.onSurface)),
+                child: Text(message.text,
+                    style: TextStyle(
+                        color: isUser ? scheme.onPrimary : scheme.onSurface)),
               ),
               if (message.tools.isNotEmpty)
                 Padding(
@@ -329,7 +362,10 @@ class _ThinkingBubble extends StatelessWidget {
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(18),
         ),
-        child: const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+        child: const SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(strokeWidth: 2)),
       ),
     );
   }
