@@ -1,11 +1,8 @@
 // The only things the AI agent can do. None of them touch PayPal.
 // Totals are always computed here from catalog prices, never from model output.
-
 import { PRODUCTS, getProduct, formatCents, shippingFor, CURRENCY } from './catalog.js';
-
 const MAX_RESULTS = 8;
 const MAX_LINE_QUANTITY = 10;
-
 function normalizeTags(value) {
   if (!Array.isArray(value)) return [];
   return value.map((t) => String(t).toLowerCase().trim()).filter(Boolean);
