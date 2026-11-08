@@ -11,7 +11,6 @@ class CartCard extends StatelessWidget {
     required this.onConfirm,
     required this.onReopenPayPal,
   });
-
   final Cart cart;
   final bool busy;
   final VoidCallback onConfirm;
