@@ -10,7 +10,6 @@ Future<void> main() async {
 
 class AgentCartApp extends StatelessWidget {
   const AgentCartApp({super.key, required this.api});
-
   final ApiClient api;
 
   @override
