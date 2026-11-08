@@ -1,0 +1,19 @@
+{
+  "name": "agentcart-backend",
+  "version": "1.0.0",
+  "description": "AgentCart backend: Gemini shopping agent + PayPal sandbox checkout with a human confirmation gate",
+  "type": "module",
+  "main": "src/server.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

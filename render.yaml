@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: agentcart-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: DEFAULT_SPENDING_LIMIT
+        value: "50"
+      # Set this to your service URL, e.g. https://agentcart-backend.onrender.com
+      - key: PUBLIC_BASE_URL
+        sync: false
