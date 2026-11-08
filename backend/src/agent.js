@@ -4,7 +4,6 @@ import { TOOL_DECLARATIONS, TOOL_IMPLEMENTATIONS, searchProducts, compareOptions
 import { formatCents, shippingFor } from './catalog.js';
 const MAX_STEPS = 6;
 const MAX_HISTORY = 30;
-
 export const SYSTEM_PROMPT = `You are AgentCart, a shopping assistant for a frozen-food store. You help the user find and cart items; a human always pays.
 
 Rules:
