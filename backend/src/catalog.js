@@ -1,10 +1,8 @@
 // Fixed demo catalog. Prices are integer US cents so totals never suffer float drift.
 // Tags drive dietary constraints ("no pork", "vegetarian", ...). `stock: 0` is a deliberate demo trap.
-
 export const SHIPPING_CENTS = 399;
 export const FREE_SHIPPING_OVER_CENTS = 5000;
 export const CURRENCY = 'USD';
-
 export const PRODUCTS = [
   // Singles
   { id: 'f01', name: 'Crispy Chicken Nuggets 1 kg', category: 'single', priceCents: 899, serves: 4, stock: 40, tags: ['chicken'], description: 'Breaded chicken nuggets, oven or air-fryer ready.' },
