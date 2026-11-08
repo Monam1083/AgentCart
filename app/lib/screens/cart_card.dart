@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/models.dart';
 
 /// Shows the agent's draft cart and the human Confirm step.
@@ -85,9 +84,13 @@ class CartCard extends StatelessWidget {
         child: FilledButton.icon(
           onPressed: busy ? null : onConfirm,
           icon: busy
-              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2))
               : const Icon(Icons.lock_outline),
-          label: Text(busy ? 'Starting PayPal…' : 'Confirm and pay with PayPal'),
+          label:
+              Text(busy ? 'Starting PayPal…' : 'Confirm and pay with PayPal'),
         ),
       );
     }
@@ -96,12 +99,18 @@ class CartCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(children: [
-            SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+            SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2)),
             SizedBox(width: 12),
-            Expanded(child: Text('Waiting for you to approve the payment in PayPal…')),
+            Expanded(
+                child:
+                    Text('Waiting for you to approve the payment in PayPal…')),
           ]),
           const SizedBox(height: 8),
-          TextButton(onPressed: onReopenPayPal, child: const Text('Reopen PayPal')),
+          TextButton(
+              onPressed: onReopenPayPal, child: const Text('Reopen PayPal')),
         ],
       );
     }
@@ -115,7 +124,10 @@ class CartCard extends StatelessWidget {
     return Row(children: [
       const Icon(Icons.info_outline),
       const SizedBox(width: 8),
-      Expanded(child: Text(cart.status == 'cancelled' ? 'Payment cancelled. Nothing was charged.' : (cart.error ?? 'Payment did not complete.'))),
+      Expanded(
+          child: Text(cart.status == 'cancelled'
+              ? 'Payment cancelled. Nothing was charged.'
+              : (cart.error ?? 'Payment did not complete.'))),
     ]);
   }
 }
