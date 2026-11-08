@@ -1,9 +1,7 @@
 // PayPal Orders v2 client. Sandbox only: there is no code path to the live API.
 
 import { centsToDecimal } from './catalog.js';
-
 export const SANDBOX_BASE_URL = 'https://api-m.sandbox.paypal.com';
-
 function resolveBaseUrl(override) {
   if (!override) return SANDBOX_BASE_URL;
   // Allow a local fake PayPal for development and tests, never anything else.
