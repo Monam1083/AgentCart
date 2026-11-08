@@ -2,7 +2,6 @@
 // Good enough for a demo and for judges running it locally; swap for Firestore/Postgres to persist across restarts.
 
 import { randomUUID } from 'node:crypto';
-
 export function createStore() {
   const sessions = new Map();
   const carts = new Map();
